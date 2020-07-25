@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Raspberrypi on joshmurphy.ca 💾</title>
-    <link>https://rangu.li/tags/raspberrypi/</link>
-    <description>Recent content in Raspberrypi on joshmurphy.ca 💾</description>
+    <title>Raspberrypi on ranguli.xyz</title>
+    <link>https://ranguli.xyz/tags/raspberrypi/</link>
+    <description>Recent content in Raspberrypi on ranguli.xyz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
     <lastBuildDate>Fri, 14 Jun 2019 19:07:23 -0400</lastBuildDate>
     
-	<atom:link href="https://rangu.li/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ranguli.xyz/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Provisioning a Raspberry Pi (without an SD Card Reader)</title>
-      <link>https://rangu.li/posts/lets-do-a-pi-thing/</link>
+      <link>https://ranguli.xyz/posts/lets-do-a-pi-thing/</link>
       <pubDate>Fri, 14 Jun 2019 19:07:23 -0400</pubDate>
       
-      <guid>https://rangu.li/posts/lets-do-a-pi-thing/</guid>
+      <guid>https://ranguli.xyz/posts/lets-do-a-pi-thing/</guid>
       <description>You may also have faced this issue in the past: you have a Raspberry Pi, and a MicroSD card, but no MicroSD card reader. Well, your Raspberry Pi has one. Why can&amp;rsquo;t we use that? Well, if you&amp;rsquo;ve got a Raspberry Pi 3+, you can.
 Create a recovery / LiveUSB from your host machine  Install Raspbian on a USB flash drive. On a Raspberry Pi 3B+, it will automatically boot off of mass storage device, like your Raspbian live USB.</description>
     </item>
