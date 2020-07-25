@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Untagged on joshmurphy.ca 💾</title>
+    <link>https://rangu.li/tags/untagged/</link>
+    <description>Recent content in Untagged on joshmurphy.ca 💾</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 19 Jun 2019 10:16:35 -0400</lastBuildDate>
+    
+	<atom:link href="https://rangu.li/tags/untagged/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Notes on Emulating a Raspberry Pi for Testing &amp; Development</title>
+      <link>https://rangu.li/posts/raspberry-pi-virtual-development/</link>
+      <pubDate>Wed, 19 Jun 2019 10:16:35 -0400</pubDate>
+      
+      <guid>https://rangu.li/posts/raspberry-pi-virtual-development/</guid>
+      <description>Here are my personal notes while exploring how to emulate a Raspbian environment running on ARM for the purposes of &amp;ldquo;on the go&amp;rdquo; Raspberry Pi development. Note that this doesn&amp;rsquo;t have an provisions for emulating things like GPIO pins or other hardware, etc.
+Requirements  QEMU, with ARM support Raspbian .img (or distro of choice) Raspberry Pi QEMU kernel (there is more than one you can choose from)  # Set these to your own preferences IMAGE=~/Downloads/2019-04-08-rasbian-strech-lite.</description>
+    </item>
+    
+  </channel>
+</rss>

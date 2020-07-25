@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+
+<meta itemprop="name" content="Notes on Mesh Networking: Basic Mesh Configurations">
+<meta itemprop="description" content="During my exploration of Mesh Networking with Tomesh, I realized that mesh networking can look like a lot of different things.
+Example 0: Simple One Node Proof of Concept Figure 0: The simplest mesh network configuration.
+The simplest &ldquo;proof of concept&rdquo; configuration to get your own mesh network environment up and running is to create a tomesh node, then connect to it with an Ethernet cable. The node will automatically assign an IPv6 address to the client via DHCP.">
+
+
+<meta itemprop="datePublished" content="2019-06-14T10:48:46-04:00" />
+<meta itemprop="dateModified" content="2019-06-14T10:48:46-04:00" />
+<meta itemprop="wordCount" content="885">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta property="og:title" content="Notes on Mesh Networking: Basic Mesh Configurations" />
+<meta property="og:description" content="During my exploration of Mesh Networking with Tomesh, I realized that mesh networking can look like a lot of different things.
+Example 0: Simple One Node Proof of Concept Figure 0: The simplest mesh network configuration.
+The simplest &ldquo;proof of concept&rdquo; configuration to get your own mesh network environment up and running is to create a tomesh node, then connect to it with an Ethernet cable. The node will automatically assign an IPv6 address to the client via DHCP." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rangu.li/posts/notes-on-mesh-networking-basic-mesh-configurations/" />
+<meta property="article:published_time" content="2019-06-14T10:48:46-04:00"/>
+<meta property="article:modified_time" content="2019-06-14T10:48:46-04:00"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Notes on Mesh Networking: Basic Mesh Configurations"/>
+<meta name="twitter:description" content="During my exploration of Mesh Networking with Tomesh, I realized that mesh networking can look like a lot of different things.
+Example 0: Simple One Node Proof of Concept Figure 0: The simplest mesh network configuration.
+The simplest &ldquo;proof of concept&rdquo; configuration to get your own mesh network environment up and running is to create a tomesh node, then connect to it with an Ethernet cable. The node will automatically assign an IPv6 address to the client via DHCP."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>Notes on Mesh Networking: Basic Mesh Configurations</title>
+	<link rel="stylesheet" href="https://rangu.li/css/style.min.31706917653d2b9e8410abd431f30ec4359a88a94fc87a63654779d87329edec.css">
+	
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138887055-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-138887055-1');
+</script>
+
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://rangu.li">joshmurphy.ca 💾</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					<a href="https://rangu.li/posts/">posts</a>
+					<a href="https://rangu.li/about/">about</a>
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://twitter.com/0x4A_0x4D" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a><a href="https://github.com/ranguli" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://rangu.li/posts/">posts</a></li>
+			<li><a href="https://rangu.li/about/">about</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner animated fadeIn faster">
+		<article class="thin">
+			<header class="post-header">
+				<div class="post-meta"><span>Jun 14, 2019</span></div>
+				<h1>Notes on Mesh Networking: Basic Mesh Configurations</h1>
+			</header>
+			<div class="content">
+				
+
+<p>During my exploration of Mesh Networking with <a href="https://tomesh.net">Tomesh</a>, I realized that mesh networking can look like a lot of different things.</p>
+
+<h2 id="example-0-simple-one-node-proof-of-concept">Example 0: Simple One Node Proof of Concept<a href="#example-0-simple-one-node-proof-of-concept" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p><img src="/posts/resources/mesh-networking-configurations/mesh_0.svg" alt="Mesh 0" /></p>
+
+<p><em>Figure 0: The simplest mesh network configuration.</em></p>
+
+<p>The simplest &ldquo;proof of concept&rdquo; configuration to get your own mesh network environment up and running is to create a <a href="https://tomesh.net/">tomesh</a> node, then connect to it with an Ethernet cable. The node will automatically assign an IPv6 address to the client via DHCP. Lots of the networking <em>&ldquo;stuff&rdquo;</em> that would be a head scratcher over a mesh network (i.e IP assignment) is taken care of by either <a href="https://github.com/cjdelisle/cjdns">CJDNS</a> or <a href="https://github.com/yggdrasil-network/yggdrasil-go">Yggdrasil</a>. Tomesh supports both.</p>
+
+<p><em><strong>Note:</strong></em></p>
+
+<blockquote>
+<p>In the case of a Raspberry Pi or similar SoC, we can simply use the onboard Ethernet port.</p>
+</blockquote>
+
+<h3 id="use-cases">Use Cases:<a href="#use-cases" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>You have a Pi kicking around and really want to try what you&rsquo;re seeing.</li>
+<li>Development/testing tasks that only require one node and client.</li>
+</ul>
+
+<h3 id="requirements">Requirements<a href="#requirements" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>Client</li>
+<li>1x node with an Ethernet port</li>
+<li>Ethernet cable</li>
+</ul>
+
+<h2 id="example-1-one-node-proof-of-concept-with-an-access-point">Example 1: One Node Proof of Concept (with an Access Point)<a href="#example-1-one-node-proof-of-concept-with-an-access-point" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p><img src="/posts/resources/mesh-networking-configurations/mesh_1.svg" alt="Mesh 1" /></p>
+
+<p><em>Figure 1: Building on top of our previous example.</em></p>
+
+<p>To take things one step further, we can set up our node to work as an <strong>Access Point</strong>. An access point is quite literally provides a point of access a resource. Our tomesh node uses one of its wireless adapters to create what appears to the end user to be a normal WiFi network. Upon joining the network, the client will be assigned an IPv6 address over DHCP just like before.</p>
+
+<p><img src="/posts/resources/mesh-networking-configurations/ap.jpg" alt="Access Point" />
+<em>Figure 2: A Raspberry Pi node with an external Wireless Adapter</em></p>
+
+<p><em><strong>Note:</strong></em></p>
+
+<blockquote>
+<p>In the case of a Raspberry Pi or similar SoC, we can use its onboard WiFi to create the access point.</p>
+</blockquote>
+
+<h3 id="use-cases-1">Use Cases:<a href="#use-cases-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>You want to improve upon what you created in the last step.</li>
+<li>You hate wires.</li>
+</ul>
+
+<h3 id="requirements-1">Requirements:<a href="#requirements-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>Client</li>
+<li>1x node with a free wireless adapter</li>
+</ul>
+
+<h2 id="example-2-a-minimal-mesh-network-with-an-access-point">Example 2: A Minimal Mesh Network (with an Access Point)<a href="#example-2-a-minimal-mesh-network-with-an-access-point" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p><img src="/posts/resources/mesh-networking-configurations/mesh_2.svg" alt="Mesh 2" /></p>
+
+<p><em>Figure 3: A &lsquo;proper&rsquo; mesh network, the bare minimum for testing the characteristics of a mesh network.</em></p>
+
+<p>Now it is time to add more nodes into the mesh network, as it isn&rsquo;t really a network if there is only one node. Here we connect to our first node through the wireless Access Point as usual, but we connect a second node to the first over ethernet.</p>
+
+<p><em><strong>Note:</strong></em></p>
+
+<blockquote>
+<p>In the case of a Raspberry Pi, with onboard WiFi <em>and</em> an Ethernet port, the node can create an Access Point to allow clients to connect not only to itself, but to peers that it&rsquo;s connected to over its Ethernet connection.</p>
+</blockquote>
+
+<h3 id="use-cases-2">Use Cases:<a href="#use-cases-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>Basic testing/development setup that requires two nodes in order to work with mesh network characteristics</li>
+</ul>
+
+<h3 id="requirements-2">Requirements:<a href="#requirements-2" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>Client</li>
+<li>1x Node with an a free wireless adapter and Ethernet port</li>
+<li>1x with an Ethernet port</li>
+<li>1x Ethernet cable</li>
+</ul>
+
+<h2 id="example-3-a-minimal-mesh-network-without-an-access-point">Example 3: A Minimal Mesh Network (without an Access Point)<a href="#example-3-a-minimal-mesh-network-without-an-access-point" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p><img src="/posts/resources/mesh-networking-configurations/mesh_3.svg" alt="Mesh 3" /></p>
+
+<p><em>Figure 5: A &lsquo;proper&rsquo; mesh network. Instead of interfacing with it through an Access Point, we cheat and use serial.</em></p>
+
+<p>In Example 2, we made the assumption that you had at least one node with a WiFi adapter. This may not always be the case. If you don&rsquo;t have a WiFi adapter, but you do have a node with GPIO pins (like an SoC), there is a chance you may have a <a href="https://www.creatroninc.com/product/usb-to-ttl-serial-cable-debugging-for-raspberry-pi/?search_query=pi+serial&amp;results=3">USB to Serial TTL cable</a>.</p>
+
+<p><img src="/posts/resources/mesh-networking-configurations/gpio.jpg" alt="USB TTL Cable" />
+<em>Figure 4: The GPIO board of a Raspberry Pi. Connected to it are the pins for a USB to Serial TTL cable, allowing a direct hardware connection to the machine</em></p>
+
+<p><em><strong>Note</strong></em>:</p>
+
+<blockquote>
+<p>This example really isn&rsquo;t designed with deployment in mind, as serial access in this context is only practically useful for shell access. In fact, development and testing are the only purposes I could see this being used for. Your client doesn&rsquo;t <em>become</em> part of the network, you&rsquo;re just hijacking a node that is on the network.</p>
+</blockquote>
+
+<h3 id="use-cases-3">Use Cases:<a href="#use-cases-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>For when you require a barebones development/testing setup</li>
+</ul>
+
+<h3 id="requirements-3">Requirements:<a href="#requirements-3" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>Client</li>
+<li>1x USB to Serial TTL Cable</li>
+<li>1x node with GPIO/Serial pinout and Ethernet port</li>
+<li>1x node with Ethernet port</li>
+<li>1x Ethernet cable</li>
+</ul>
+
+<h2 id="example-4-a-fully-wireless-mesh-network">Example 4: A Fully Wireless Mesh Network<a href="#example-4-a-fully-wireless-mesh-network" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p><img src="/posts/resources/mesh-networking-configurations/mesh_4.svg" alt="Mesh 4" /></p>
+
+<p><em>Figure 6: One real-world example of a mesh network. Node 1 serves as an Access Point, and it connects to Node 2. Node 2 can also be an Access Point with the right hardware.</em></p>
+
+<p>Considering in the real world a mesh network may be spread over large distances, we can not always assume Ethernet will be involved.</p>
+
+<p><em><strong>Note:</strong></em></p>
+
+<blockquote>
+<p>For two nodes to connect to each other wirelessly, they must use either Ad-Hoc or Mesh Point Interface technology. Not all NICs support the later. If a node is also meant to be used as an Access Point, it must have <em>two</em> wireless adapters: one to host the Access Point, and one to connect to another node via Ad-Hoc or MPI.</p>
+</blockquote>
+
+<h3 id="use-cases-4">Use Cases:<a href="#use-cases-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>A wireless version of the barebones development/testing setup</li>
+<li>The groundwork of a mesh network</li>
+</ul>
+
+<h3 id="requirements-4">Requirements:<a href="#requirements-4" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>Client</li>
+<li>1x node with 2x wireless adapters</li>
+<li>1x node with 1x wireless adapter</li>
+</ul>
+
+<h2 id="example-5-the-real-world-wired-wireless-hybrid-mesh">Example 5: The Real World (Wired/Wireless Hybrid Mesh)<a href="#example-5-the-real-world-wired-wireless-hybrid-mesh" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+
+<p><img src="/posts/resources/mesh-networking-configurations/mesh_5.svg" alt="Mesh 5" /></p>
+
+<p><em>Figure 6: Mhmm, graphs.</em></p>
+
+<p>This network is essentially a combination of Examples 2 and 4, extrapolated, with some slight imagery changes to impress on the reader a larger sense of scale.</p>
+
+<h3 id="use-cases-5">Use Cases:<a href="#use-cases-5" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+
+<ul>
+<li>You&rsquo;ve created a mesh network that is now increasing in scale.</li>
+</ul>
+
+			</div>
+			<hr class="post-end">
+			<footer class="post-info">
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>885 Words</p>
+				<p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-06-14 12:18 -0230</p>
+			</footer>
+		</article>
+		<div class="post-nav thin">
+			<a class="next-post" href="https://rangu.li/posts/lets-do-a-pi-thing/">
+				<span class="post-nav-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>&nbsp;Newer</span><br><span>Provisioning a Raspberry Pi (without an SD Card Reader)</span>
+			</a>
+			<a class="prev-post" href="https://rangu.li/posts/c64-instructions/">
+				<span class="post-nav-label">Older&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span><br><span>Notes on the 6510 instruction set</span>
+			</a>
+		</div>
+		<div id="comments" class="thin">
+</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://rangu.li">Joshua Murphy</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://rangu.li/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+	<script src="https://rangu.li/js/main.min.784417f5847151f848c339cf0acb13a06cbb648b1483435a28ed4556c4ead69b.js"></script>
+
+</body>
+
+</html>

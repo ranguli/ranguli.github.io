@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>joshmurphy.ca 💾</title>
+    <link>https://rangu.li/</link>
+    <description>Recent content on joshmurphy.ca 💾</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 25 Jul 2020 13:06:33 -0230</lastBuildDate>
+    
+	<atom:link href="https://rangu.li/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TryHackMe Writeup - Basic Pentesting</title>
+      <link>https://rangu.li/posts/try-hack-me-basic-pentesting/</link>
+      <pubDate>Sat, 25 Jul 2020 13:06:33 -0230</pubDate>
+      
+      <guid>https://rangu.li/posts/try-hack-me-basic-pentesting/</guid>
+      <description>Here&amp;rsquo;s my writeup for the Basic Pentesting challege on TryHackme. This challenge provides multiple &amp;lsquo;checkpoints&amp;rsquo; with hand-holding hints that are often dead giveaways to ensure that you&amp;rsquo;re on the right track and that you can make it through the challenge in order to absorb all of the knowledge. It&amp;rsquo;s much more about testing your basic proficiency with tools, not about testing your guessing skills, or how you fair left to your own devices.</description>
+    </item>
+    
+    <item>
+      <title>Notes on Emulating a Raspberry Pi for Testing &amp; Development</title>
+      <link>https://rangu.li/posts/raspberry-pi-virtual-development/</link>
+      <pubDate>Wed, 19 Jun 2019 10:16:35 -0400</pubDate>
+      
+      <guid>https://rangu.li/posts/raspberry-pi-virtual-development/</guid>
+      <description>Here are my personal notes while exploring how to emulate a Raspbian environment running on ARM for the purposes of &amp;ldquo;on the go&amp;rdquo; Raspberry Pi development. Note that this doesn&amp;rsquo;t have an provisions for emulating things like GPIO pins or other hardware, etc.
+Requirements  QEMU, with ARM support Raspbian .img (or distro of choice) Raspberry Pi QEMU kernel (there is more than one you can choose from)  # Set these to your own preferences IMAGE=~/Downloads/2019-04-08-rasbian-strech-lite.</description>
+    </item>
+    
+    <item>
+      <title>Provisioning a Raspberry Pi (without an SD Card Reader)</title>
+      <link>https://rangu.li/posts/lets-do-a-pi-thing/</link>
+      <pubDate>Fri, 14 Jun 2019 19:07:23 -0400</pubDate>
+      
+      <guid>https://rangu.li/posts/lets-do-a-pi-thing/</guid>
+      <description>You may also have faced this issue in the past: you have a Raspberry Pi, and a MicroSD card, but no MicroSD card reader. Well, your Raspberry Pi has one. Why can&amp;rsquo;t we use that? Well, if you&amp;rsquo;ve got a Raspberry Pi 3+, you can.
+Create a recovery / LiveUSB from your host machine  Install Raspbian on a USB flash drive. On a Raspberry Pi 3B+, it will automatically boot off of mass storage device, like your Raspbian live USB.</description>
+    </item>
+    
+    <item>
+      <title>Notes on Mesh Networking: Basic Mesh Configurations</title>
+      <link>https://rangu.li/posts/notes-on-mesh-networking-basic-mesh-configurations/</link>
+      <pubDate>Fri, 14 Jun 2019 10:48:46 -0400</pubDate>
+      
+      <guid>https://rangu.li/posts/notes-on-mesh-networking-basic-mesh-configurations/</guid>
+      <description>During my exploration of Mesh Networking with Tomesh, I realized that mesh networking can look like a lot of different things.
+Example 0: Simple One Node Proof of Concept Figure 0: The simplest mesh network configuration.
+The simplest &amp;ldquo;proof of concept&amp;rdquo; configuration to get your own mesh network environment up and running is to create a tomesh node, then connect to it with an Ethernet cable. The node will automatically assign an IPv6 address to the client via DHCP.</description>
+    </item>
+    
+    <item>
+      <title>Notes on the 6510 instruction set</title>
+      <link>https://rangu.li/posts/c64-instructions/</link>
+      <pubDate>Thu, 18 Apr 2019 16:57:19 -0230</pubDate>
+      
+      <guid>https://rangu.li/posts/c64-instructions/</guid>
+      <description>These are my notes from reading the Chapter 5, the section on Machine Language from Commodore 64 Programmers Reference Manual. My reasoning for learning 6510 assembly is that it’s compatible with the 6502, which is known to be easy for beginners. Plus, variations of the 650x series are used in the NES, Apple II, and Atari 2600.
+Note on syntax  $ in front of a value indicates a hexidecimal value # indicates the following characters are a value (immediate mode).</description>
+    </item>
+    
+    <item>
+      <title>CV</title>
+      <link>https://rangu.li/cv/</link>
+      <pubDate>Sat, 13 Apr 2019 21:13:08 -0230</pubDate>
+      
+      <guid>https://rangu.li/cv/</guid>
+      <description>I&amp;rsquo;m in the process of getting my CV up on my new website. In the meantime, feel free to email me or get in touch on LinkedIn.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://rangu.li/about/</link>
+      <pubDate>Wed, 10 Apr 2019 18:41:50 -0230</pubDate>
+      
+      <guid>https://rangu.li/about/</guid>
+      <description>I&amp;rsquo;m currently pursuing a degree in Political Science at Memorial University, as well as completing Ryerson University&amp;rsquo;s Computer Security and Digital Forensics certificate program. As well as being fascinated with Cyber Security itself, I&amp;rsquo;m really interested in how it relates to to global political and national defence.
+Things took off for me when I got an internship at a digital marketing agency as a teenager when I found a hidden job application in their source code, and the rest is history.</description>
+    </item>
+    
+    <item>
+      <title>Fixing uniscan.pl on Arch-based distros</title>
+      <link>https://rangu.li/posts/fix-uniscan-on-arch/</link>
+      <pubDate>Wed, 10 Apr 2019 16:57:19 -0230</pubDate>
+      
+      <guid>https://rangu.li/posts/fix-uniscan-on-arch/</guid>
+      <description>When trying to install the helpful (but seemingly abandoned) uniscan.pl script for pentesting, I found that it didn&amp;rsquo;t work straight out of the box with Manjaro. Here&amp;rsquo;s how I got around it:
+Find the location of your uniscan install ➜ which uniscan /bin/uniscan This returns /bin/bash/uniscan which cleverly isn&amp;rsquo;t an executable, it&amp;rsquo;s just:
+#!/bin/sh cd /usr/share/uniscan perl uniscan.pl &amp;#34;$@&amp;#34; So our uniscan script is in /usr/share/uniscan:
+➜ /bin ls -l /usr/share/uniscan total 416 -rw-r--r-- 1 root root 5501 Apr 5 16:01 CHANGELOG.</description>
+    </item>
+    
+  </channel>
+</rss>
