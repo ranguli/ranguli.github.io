@@ -1,587 +1,78 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>Posts on ranguli.xyz</title>
-		<link>https://ranguli.xyz/posts/</link>
-		<description>Recent content in Posts on ranguli.xyz</description>
-		<generator>Hugo -- gohugo.io</generator>
-		<language>en-us</language>
-		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Sat, 25 Jul 2020 13:06:33 -0230</lastBuildDate>
-		<atom:link href="https://ranguli.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
-		
-		<item>
-			<title>TryHackMe Writeup - Basic Pentesting</title>
-			<link>https://ranguli.xyz/posts/try-hack-me-basic-pentesting/</link>
-			<pubDate>Sat, 25 Jul 2020 13:06:33 -0230</pubDate>
-			
-			<guid>https://ranguli.xyz/posts/try-hack-me-basic-pentesting/</guid>
-			<description>Here&amp;rsquo;s my writeup for the Basic Pentesting challege on TryHackme. This challenge provides multiple &amp;lsquo;checkpoints&amp;rsquo; with hand-holding hints that are often dead giveaways to ensure that you&amp;rsquo;re on the right track and that you can make it through the challenge in order to absorb all of the knowledge. It&amp;rsquo;s much more about testing your basic proficiency with tools, not about testing your guessing skills, or how you fair left to your own devices.</description>
-			<content type="html"><![CDATA[
-
-<p>Here&rsquo;s my writeup for the <em>Basic Pentesting</em> challege on <a href="https://tryhackme.com/">TryHackme</a>. This challenge provides multiple &lsquo;checkpoints&rsquo; with hand-holding hints that are often dead giveaways to ensure that you&rsquo;re on the right track and that you can make it through the challenge in order to absorb all of the knowledge. It&rsquo;s much more about testing your basic proficiency with tools, <em>not</em> about testing your guessing skills, or how you fair left to your own devices.</p>
-
-<h3 id="1-find-the-services-exposed-by-the-machine">#1 Find the services exposed by the machine</h3>
-
-<p>There are quite a number of services running on this machine, including <code>apache</code>, <code>smb</code>, <code>ssh</code>, and <code>tomcat</code> among others. The only ones that were really relevant are the first three.</p>
-
-<p>A simple nmap scan enumerates the following services:</p>
-
-<pre><code>Starting Nmap 7.70 ( https://nmap.org ) at 2020-07-25 13:12 NDT
-Nmap scan report for 10.10.95.50
-Host is up (0.12s latency).
-Not shown: 994 closed ports
-PORT     STATE SERVICE     VERSION
-22/tcp   open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey:
-|   2048 db:45:cb:be:4a:8b:71:f8:e9:31:42:ae:ff:f8:45:e4 (RSA)
-|   256 09:b9:b9:1c:e0:bf:0e:1c:6f:7f:fe:8e:5f:20:1b:ce (ECDSAand )
-|_  256 a5:68:2b:22:5f:98:4a:62:21:3d:a2:e2:c5:a9:f7:c2 (ED25519)
-80/tcp   open  http        Apache httpd 2.4.18 ((Ubuntu))
-|_http-server-header: Apache/2.4.18 (Ubuntu)
-|_http-title: Site doesn't have a title (text/html).
-139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
-445/tcp  open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)
-8009/tcp open  ajp13       Apache Jserv (Protocol v1.3)
-| ajp-methods:
-|_  Supported methods: GET HEAD POST OPTIONS
-8080/tcp open  http        Apache Tomcat 9.0.7
-|_http-favicon: Apache Tomcat
-|_http-title: Apache Tomcat/9.0.7
-No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
-TCP/IP fingerprint:
-OS:SCAN(V=7.70%E=4%D=7/25%OT=22%CT=1%CU=42095%PV=Y%DS=4%DC=T%G=Y%TM=5F1C533
-OS:2%P=x86_64-pc-linux-gnu)SEQ(SP=FE%GCD=1%ISR=109%TI=Z%CI=RD%TS=8)OPS(O1=M
-OS:509ST11NW6%O2=M509ST11NW6%O3=M509NNT11NW6%O4=M509ST11NW6%O5=M509ST11NW6%
-OS:O6=M509ST11)WIN(W1=68DF%W2=68DF%W3=68DF%W4=68DF%W5=68DF%W6=68DF)ECN(R=Y%
-OS:DF=Y%T=40%W=6903%O=M509NNSNW6%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=
-OS:0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF
-OS:=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=
-OS:%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%
-OS:IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
-
-Network Distance: 4 hops
-Service Info: Host: BASIC2; OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
-Host script results:
-|_clock-skew: mean: 1h19m59s, deviation: 2h18m34s, median: 0s
-|_nbstat: NetBIOS name: BASIC2, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)
-| smb-os-discovery:
-|   OS: Windows 6.1 (Samba 4.3.11-Ubuntu)
-|   Computer name: basic2
-|   NetBIOS computer name: BASIC2\x00
-|   Domain name: \x00
-|   FQDN: basic2
-|_  System time: 2020-07-25T11:43:42-04:00
-| smb-security-mode:
-|   account_used: guest
-|   authentication_level: user
-|   challenge_response: supported
-|_  message_signing: disabled (dangerous, but default)
-| smb2-security-mode:
-|   2.02:
-|_    Message signing enabled but not required
-| smb2-time:
-|   date: 2020-07-25 13:13:42
-|_  start_date: N/A
-
-TRACEROUTE (using port 443/tcp)
-HOP RTT       ADDRESS
-1   44.92 ms  10.6.0.1
-2   ... 3
-4   113.36 ms 10.10.95.50
-
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 48.25 seconds
-</code></pre>
-
-<h3 id="finding-the-hidden-directory-on-the-web-server">Finding the hidden directory on the web server</h3>
-
-<p>The next checkpoint asks us to find a hidden directory on the webserver. The hint straight up tells us to use a directory bruteforcer/scanner to find it. I personally like <code>gobuster</code>, with the <code>directory-list-2.3-big.txt</code> wordlist from the <a href="https://github.com/danielmiessler/SecLists">SecLists</a> repo.</p>
-
-<pre><code>gobuster -w ~/projects/SecLists/Discovery/Web-Content/directory-list-2.3-big.txt -u 10.10.95.50
-
-=====================================================
-Gobuster v2.0.1              OJ Reeves (@TheColonial)
-=====================================================
-[+] Mode         : dir
-[+] Url/Domain   : http://10.10.95.50/
-[+] Threads      : 10
-[+] Wordlist     : /home/joshua/projects/SecLists/Discovery/Web-Content/directory-list-2.3-big.txt
-[+] Status codes : 200,204,301,302,307,403
-[+] Timeout      : 10s
-=====================================================
-2020/07/25 13:22:48 Starting gobuster
-=====================================================
-/development (Status: 301)
-Progress: 1159 / 1273834 (0.09%)
-</code></pre>
-
-<p>Right off the bat we got <code>development/</code>, which is the hidden directory we were tasked with finding.</p>
-
-<p>We find two text files, the one that was the most interesting to me was:</p>
-
-<blockquote>
-<p>For J:</p>
-
-<p>I&rsquo;ve been auditing the contents of /etc/shadow to make sure we don&rsquo;t have any weak credentials,
-and I was able to crack your hash really easily. You know our password policy, so please follow
-it? Change that password ASAP.</p>
-
-<p>-K</p>
-</blockquote>
-
-<p>So we know that there&rsquo;s a user, <em>j</em>, with an easily crackable password. This is not their real username however, just an initial.</p>
-
-<h3 id="use-brute-forcing-to-find-the-username-and-password">Use brute-forcing to find the username and password</h3>
-
-<p>One of the services we enumerated was SMB, so we can start there by enumerating users and looking for someone with a name starting with the letter j. I ran into so much trouble with various SMB enumeration tools that I forgot to record which tool I used and the corresponding output for the writeup. We got the users though, and that&rsquo;s what matters.</p>
-
-<h2 id="get-the-username">Get the username</h2>
-
-<p>The users found during the SMB enumeration were <code>jan</code> and <code>kay</code>, these are <em>j</em>
-and <em>k</em> we found earlier in the messages.</p>
-
-<h2 id="get-the-password">Get the password</h2>
-
-<p>We&rsquo;re now told to get the password. Let&rsquo;s start by SSH bruteforcing <code>jan</code> first with the <code>rockyou.txt</code> wordlist.</p>
-
-<pre><code>hydra -l jay -P rockyou.txt 10.10.95.50-t 4 ssh -V -f
-</code></pre>
-
-<p>We get back a successful match, <code>armando</code>, as our password.</p>
-
-<h2 id="enumerate-the-machine-and-find-vectors-for-privilege-escalation">Enumerate the machine and find vectors for privilege escalation</h2>
-
-<p>We can try logging into SSH with <code>jan@10.10.95.50</code>, and use <code>LinEnum</code> for finding vectors for privilege escalation. Because we don&rsquo;t have permission to create files in our home directory, I run the script from the <code>tmp/</code> directory. The script tells us that the <code>kay</code> user has admin permissions, and they own their own home directory. The script also tell us that <code>/usr/bin/vim.basic</code> has SUID permissions. From here I opened <code>/etc/passwd</code> and <code>/etc/shadow</code> with <code>/usr/bin/vim.basic</code>, transferred them to my machine, ran <code>unshadow</code> and started bruteforcing the credentials. This would prove unnecessary however, as the <code>kay</code> user has an SSH keypair in their home directory under <code>~/.ssh</code>. After exfiltrating them, I couldn&rsquo;t use them to SSH as the <code>kay</code> user because the private key has a passphrase, and I ran into a ton of difficulty getting <code>john</code> to crack the passphrase.</p>
-
-<h2 id="get-the-flag">Get the flag</h2>
-
-<p>At this point I simply realized I had been taking the long way around, because I also had access to <code>~/.ssh/authorized_keys</code>, I could just generate a new keypair on my host machine and copy the public key into <code>authorized_keys</code>, giving me SSH access into the box. In <code>~/kay</code> there&rsquo;s a file containing the password in plaintext, which is our final flag.</p>
-]]></content>
-		</item>
-		
-		<item>
-			<title>Notes on Emulating a Raspberry Pi for Testing &amp; Development</title>
-			<link>https://ranguli.xyz/posts/raspberry-pi-virtual-development/</link>
-			<pubDate>Wed, 19 Jun 2019 10:16:35 -0400</pubDate>
-			
-			<guid>https://ranguli.xyz/posts/raspberry-pi-virtual-development/</guid>
-			<description>Here are my personal notes while exploring how to emulate a Raspbian environment running on ARM for the purposes of &amp;ldquo;on the go&amp;rdquo; Raspberry Pi development. Note that this doesn&amp;rsquo;t have an provisions for emulating things like GPIO pins or other hardware, etc.
+  <channel>
+    <title>Posts on ranguli.xyz</title>
+    <link>https://ranguli.xyz/posts/</link>
+    <description>Recent content in Posts on ranguli.xyz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Sat, 25 Jul 2020 13:06:33 -0230</lastBuildDate>
+    
+	<atom:link href="https://ranguli.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TryHackMe Writeup - Basic Pentesting</title>
+      <link>https://ranguli.xyz/posts/try-hack-me-basic-pentesting/</link>
+      <pubDate>Sat, 25 Jul 2020 13:06:33 -0230</pubDate>
+      
+      <guid>https://ranguli.xyz/posts/try-hack-me-basic-pentesting/</guid>
+      <description>Here&amp;rsquo;s my writeup for the Basic Pentesting challege on TryHackme. This challenge provides multiple &amp;lsquo;checkpoints&amp;rsquo; with hand-holding hints that are often dead giveaways to ensure that you&amp;rsquo;re on the right track and that you can make it through the challenge in order to absorb all of the knowledge. It&amp;rsquo;s much more about testing your basic proficiency with tools, not about testing your guessing skills, or how you fair left to your own devices.</description>
+    </item>
+    
+    <item>
+      <title>Notes on Emulating a Raspberry Pi for Testing &amp; Development</title>
+      <link>https://ranguli.xyz/posts/raspberry-pi-virtual-development/</link>
+      <pubDate>Wed, 19 Jun 2019 10:16:35 -0400</pubDate>
+      
+      <guid>https://ranguli.xyz/posts/raspberry-pi-virtual-development/</guid>
+      <description>Here are my personal notes while exploring how to emulate a Raspbian environment running on ARM for the purposes of &amp;ldquo;on the go&amp;rdquo; Raspberry Pi development. Note that this doesn&amp;rsquo;t have an provisions for emulating things like GPIO pins or other hardware, etc.
 Requirements  QEMU, with ARM support Raspbian .img (or distro of choice) Raspberry Pi QEMU kernel (there is more than one you can choose from)  # Set these to your own preferences IMAGE=~/Downloads/2019-04-08-rasbian-strech-lite.</description>
-			<content type="html"><![CDATA[
-
-<p>Here are my personal notes while exploring how to emulate a Raspbian environment running on ARM for the purposes of &ldquo;on the go&rdquo; Raspberry Pi development.
-Note that this doesn&rsquo;t have an provisions for emulating things like GPIO pins or other hardware, etc.</p>
-
-<h2 id="requirements">Requirements</h2>
-
-<ul>
-<li>QEMU, with ARM support</li>
-<li>Raspbian <code>.img</code> (or distro of choice)</li>
-<li>Raspberry Pi QEMU kernel (there is more than one you can choose from)</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Set these to your own preferences</span>
-<span class="nv">IMAGE</span><span class="o">=</span>~/Downloads/2019-04-08-rasbian-strech-lite.img
-<span class="nv">KERNEL</span><span class="o">=</span>https://github.com/dhruvvyas90/qemu-rpi-kernel
-
-git clone <span class="nv">$KERNEL</span> 
-
-qemu-system-arm <span class="se">\
-</span><span class="se"></span>   -kernel <span class="nv">$KERNEL</span>/kernel-qemu-4.14.79-stretch <span class="se">\
-</span><span class="se"></span>   -dtb <span class="nv">$KERNEL</span>/versatile-pb.dtb <span class="se">\
-</span><span class="se"></span>   -m <span class="m">256</span> -M versatilepb -cpu arm1176 <span class="se">\
-</span><span class="se"></span>   -serial stdio <span class="se">\
-</span><span class="se"></span>   -append <span class="s2">&#34;rw console=ttyAMA0 root=/dev/sda2 rootfstype=ext4  loglevel=8 rootwait fsck.repair=yes memtest=1&#34;</span> <span class="se">\
-</span><span class="se"></span>   -drive <span class="nv">file</span><span class="o">=</span><span class="nv">$IMAGE</span>,format<span class="o">=</span>raw <span class="se">\
-</span><span class="se"></span>   -nic user,hostfwd<span class="o">=</span>tcp::5022-:22 <span class="se">\
-</span><span class="se"></span>   -no-reboot</code></pre></div>]]></content>
-		</item>
-		
-		<item>
-			<title>Provisioning a Raspberry Pi (without an SD Card Reader)</title>
-			<link>https://ranguli.xyz/posts/lets-do-a-pi-thing/</link>
-			<pubDate>Fri, 14 Jun 2019 19:07:23 -0400</pubDate>
-			
-			<guid>https://ranguli.xyz/posts/lets-do-a-pi-thing/</guid>
-			<description>You may also have faced this issue in the past: you have a Raspberry Pi, and a MicroSD card, but no MicroSD card reader. Well, your Raspberry Pi has one. Why can&amp;rsquo;t we use that? Well, if you&amp;rsquo;ve got a Raspberry Pi 3+, you can.
+    </item>
+    
+    <item>
+      <title>Provisioning a Raspberry Pi (without an SD Card Reader)</title>
+      <link>https://ranguli.xyz/posts/lets-do-a-pi-thing/</link>
+      <pubDate>Fri, 14 Jun 2019 19:07:23 -0400</pubDate>
+      
+      <guid>https://ranguli.xyz/posts/lets-do-a-pi-thing/</guid>
+      <description>You may also have faced this issue in the past: you have a Raspberry Pi, and a MicroSD card, but no MicroSD card reader. Well, your Raspberry Pi has one. Why can&amp;rsquo;t we use that? Well, if you&amp;rsquo;ve got a Raspberry Pi 3+, you can.
 Create a recovery / LiveUSB from your host machine  Install Raspbian on a USB flash drive. On a Raspberry Pi 3B+, it will automatically boot off of mass storage device, like your Raspbian live USB.</description>
-			<content type="html"><![CDATA[
-
-<p>You may also have faced this issue in the past: you have a Raspberry Pi, and a MicroSD card, but no MicroSD card reader. Well, your Raspberry Pi has one. Why can&rsquo;t we use that? Well, if you&rsquo;ve got a Raspberry Pi 3+, you can.</p>
-
-<h3 id="create-a-recovery-liveusb-from-your-host-machine">Create a recovery / LiveUSB from your host machine</h3>
-
-<ul>
-<li>Install Raspbian on a USB flash drive. On a Raspberry Pi 3B+, it will automatically boot off of mass storage device, like your Raspbian live USB. We will use this in order to &lsquo;free up&rsquo; the MicroSD card slot, and burn our image from the Raspberry Pi itself.</li>
-</ul>
-
-<p><em>It will also be useful as a recovery Live USB in case you ever do something to a Raspbian install that you can&rsquo;t fix, like breaking a config file</em></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">lsblk <span class="c1"># Find your USB Device</span>
-wget https://downloads.raspberrypi.org/raspbian_full_latest
-sudo dd <span class="k">if</span><span class="o">=</span>raspbian_image.img <span class="nv">of</span><span class="o">=</span>/dev/sdX <span class="nv">bs</span><span class="o">=</span>4M</code></pre></div>
-<h3 id="enable-ssh">Enable SSH</h3>
-
-<ul>
-<li>Mount the correct partition of the completed USB</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mount /dev/sdX /media/boot/
-<span class="nb">cd</span> boot/
-ls
-
-<span class="c1"># Your output will be something like this</span>
-bcm2708-rpi-0-w.dtb     bcm2710-rpi-3-b-plus.dtb  fixup_cd.dat  kernel.img        start.elf
-bcm2708-rpi-b.dtb       bcm2710-rpi-cm3.dtb       fixup.dat     LICENCE.broadcom  start_x.elf
-bcm2708-rpi-b-plus.dtb  bootcode.bin              fixup_db.dat  LICENSE.oracle
-bcm2708-rpi-cm.dtb      cmdline.txt               fixup_x.dat   overlays
-bcm2709-rpi-2-b.dtb     config.txt                issue.txt     start_cd.elf
-bcm2710-rpi-3-b.dtb     COPYING.linux             kernel7.img   start_db.elf
-
-<span class="c1"># Create a blank file called SSH to enable it on boot.</span>
-touch ssh</code></pre></div>
-<h3 id="create-the-raspbian-microsd-from-your-raspberry-pi">Create the Raspbian MicroSD from your Raspberry Pi</h3>
-
-<p>From the Raspberry Pi (booted off of the Live USB):</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">lsblk <span class="c1"># Find your USB Device</span>
-wget https://downloads.raspberrypi.org/raspbian_lite_latest <span class="c1"># Use Lite image</span>
-sudo dd <span class="k">if</span><span class="o">=</span>raspbian_image <span class="nv">of</span><span class="o">=</span>/dev/mccblk0 <span class="nv">bs</span><span class="o">=</span>4M</code></pre></div>
-<h3 id="configure-the-installation">Configure the installation</h3>
-
-<ul>
-<li>Enabled SSH as done in the previous step</li>
-<li>On boot, run <code>sudo raspi-config</code> over SSH</li>
-<li>Configure localization, networking and boot options</li>
-</ul>
-
-<h2 id="creating-a-backup-image-of-the-completed-install">Creating a backup image of the completed install</h2>
-
-<ul>
-<li>Note: You will need enough free space to backup the <em>entire</em> MicroSD card, that is, you need 64GB of space for a 64GB MicroSD card. It can be compressed after the fact.</li>
-<li>If you don&rsquo;t have a MicroSD card reader, like in my case, you can boot the Raspberry Pi from the LiveUSB, to free up the MicroSD slot in order to read its contents. Then I plug in an external USB hardrive that has enough space for the size of the uncompressed image backup.</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/sdX <span class="nv">of</span><span class="o">=</span>~/raspbian_backup.img</code></pre></div>
-<h3 id="compression-method">Compression method</h3>
-
-<ul>
-<li>After creating your backup, <code>raspbian.img</code></li>
-<li>Run <code>gzip raspbian.img</code>, creating <code>raspbian.img.gz</code></li>
-<li>Note that to burn the image, run:
-
-<ul>
-<li><code>cat foo.img.gz | gunzip | dd of=/dev/sdX</code></li>
-</ul></li>
-</ul>
-]]></content>
-		</item>
-		
-		<item>
-			<title>Notes on Mesh Networking: Basic Mesh Configurations</title>
-			<link>https://ranguli.xyz/posts/notes-on-mesh-networking-basic-mesh-configurations/</link>
-			<pubDate>Fri, 14 Jun 2019 10:48:46 -0400</pubDate>
-			
-			<guid>https://ranguli.xyz/posts/notes-on-mesh-networking-basic-mesh-configurations/</guid>
-			<description>During my exploration of Mesh Networking with Tomesh, I realized that mesh networking can look like a lot of different things.
+    </item>
+    
+    <item>
+      <title>Notes on Mesh Networking: Basic Mesh Configurations</title>
+      <link>https://ranguli.xyz/posts/notes-on-mesh-networking-basic-mesh-configurations/</link>
+      <pubDate>Fri, 14 Jun 2019 10:48:46 -0400</pubDate>
+      
+      <guid>https://ranguli.xyz/posts/notes-on-mesh-networking-basic-mesh-configurations/</guid>
+      <description>During my exploration of Mesh Networking with Tomesh, I realized that mesh networking can look like a lot of different things.
 Example 0: Simple One Node Proof of Concept Figure 0: The simplest mesh network configuration.
 The simplest &amp;ldquo;proof of concept&amp;rdquo; configuration to get your own mesh network environment up and running is to create a tomesh node, then connect to it with an Ethernet cable. The node will automatically assign an IPv6 address to the client via DHCP.</description>
-			<content type="html"><![CDATA[
-
-<p>During my exploration of Mesh Networking with <a href="https://tomesh.net">Tomesh</a>, I realized that mesh networking can look like a lot of different things.</p>
-
-<h2 id="example-0-simple-one-node-proof-of-concept">Example 0: Simple One Node Proof of Concept</h2>
-
-<p><img src="/posts/resources/mesh-networking-configurations/mesh_0.svg" alt="Mesh 0" /></p>
-
-<p><em>Figure 0: The simplest mesh network configuration.</em></p>
-
-<p>The simplest &ldquo;proof of concept&rdquo; configuration to get your own mesh network environment up and running is to create a <a href="https://tomesh.net/">tomesh</a> node, then connect to it with an Ethernet cable. The node will automatically assign an IPv6 address to the client via DHCP. Lots of the networking <em>&ldquo;stuff&rdquo;</em> that would be a head scratcher over a mesh network (i.e IP assignment) is taken care of by either <a href="https://github.com/cjdelisle/cjdns">CJDNS</a> or <a href="https://github.com/yggdrasil-network/yggdrasil-go">Yggdrasil</a>. Tomesh supports both.</p>
-
-<p><em><strong>Note:</strong></em></p>
-
-<blockquote>
-<p>In the case of a Raspberry Pi or similar SoC, we can simply use the onboard Ethernet port.</p>
-</blockquote>
-
-<h3 id="use-cases">Use Cases:</h3>
-
-<ul>
-<li>You have a Pi kicking around and really want to try what you&rsquo;re seeing.</li>
-<li>Development/testing tasks that only require one node and client.</li>
-</ul>
-
-<h3 id="requirements">Requirements</h3>
-
-<ul>
-<li>Client</li>
-<li>1x node with an Ethernet port</li>
-<li>Ethernet cable</li>
-</ul>
-
-<h2 id="example-1-one-node-proof-of-concept-with-an-access-point">Example 1: One Node Proof of Concept (with an Access Point)</h2>
-
-<p><img src="/posts/resources/mesh-networking-configurations/mesh_1.svg" alt="Mesh 1" /></p>
-
-<p><em>Figure 1: Building on top of our previous example.</em></p>
-
-<p>To take things one step further, we can set up our node to work as an <strong>Access Point</strong>. An access point is quite literally provides a point of access a resource. Our tomesh node uses one of its wireless adapters to create what appears to the end user to be a normal WiFi network. Upon joining the network, the client will be assigned an IPv6 address over DHCP just like before.</p>
-
-<p><img src="/posts/resources/mesh-networking-configurations/ap.jpg" alt="Access Point" />
-<em>Figure 2: A Raspberry Pi node with an external Wireless Adapter</em></p>
-
-<p><em><strong>Note:</strong></em></p>
-
-<blockquote>
-<p>In the case of a Raspberry Pi or similar SoC, we can use its onboard WiFi to create the access point.</p>
-</blockquote>
-
-<h3 id="use-cases-1">Use Cases:</h3>
-
-<ul>
-<li>You want to improve upon what you created in the last step.</li>
-<li>You hate wires.</li>
-</ul>
-
-<h3 id="requirements-1">Requirements:</h3>
-
-<ul>
-<li>Client</li>
-<li>1x node with a free wireless adapter</li>
-</ul>
-
-<h2 id="example-2-a-minimal-mesh-network-with-an-access-point">Example 2: A Minimal Mesh Network (with an Access Point)</h2>
-
-<p><img src="/posts/resources/mesh-networking-configurations/mesh_2.svg" alt="Mesh 2" /></p>
-
-<p><em>Figure 3: A &lsquo;proper&rsquo; mesh network, the bare minimum for testing the characteristics of a mesh network.</em></p>
-
-<p>Now it is time to add more nodes into the mesh network, as it isn&rsquo;t really a network if there is only one node. Here we connect to our first node through the wireless Access Point as usual, but we connect a second node to the first over ethernet.</p>
-
-<p><em><strong>Note:</strong></em></p>
-
-<blockquote>
-<p>In the case of a Raspberry Pi, with onboard WiFi <em>and</em> an Ethernet port, the node can create an Access Point to allow clients to connect not only to itself, but to peers that it&rsquo;s connected to over its Ethernet connection.</p>
-</blockquote>
-
-<h3 id="use-cases-2">Use Cases:</h3>
-
-<ul>
-<li>Basic testing/development setup that requires two nodes in order to work with mesh network characteristics</li>
-</ul>
-
-<h3 id="requirements-2">Requirements:</h3>
-
-<ul>
-<li>Client</li>
-<li>1x Node with an a free wireless adapter and Ethernet port</li>
-<li>1x with an Ethernet port</li>
-<li>1x Ethernet cable</li>
-</ul>
-
-<h2 id="example-3-a-minimal-mesh-network-without-an-access-point">Example 3: A Minimal Mesh Network (without an Access Point)</h2>
-
-<p><img src="/posts/resources/mesh-networking-configurations/mesh_3.svg" alt="Mesh 3" /></p>
-
-<p><em>Figure 5: A &lsquo;proper&rsquo; mesh network. Instead of interfacing with it through an Access Point, we cheat and use serial.</em></p>
-
-<p>In Example 2, we made the assumption that you had at least one node with a WiFi adapter. This may not always be the case. If you don&rsquo;t have a WiFi adapter, but you do have a node with GPIO pins (like an SoC), there is a chance you may have a <a href="https://www.creatroninc.com/product/usb-to-ttl-serial-cable-debugging-for-raspberry-pi/?search_query=pi+serial&amp;results=3">USB to Serial TTL cable</a>.</p>
-
-<p><img src="/posts/resources/mesh-networking-configurations/gpio.jpg" alt="USB TTL Cable" />
-<em>Figure 4: The GPIO board of a Raspberry Pi. Connected to it are the pins for a USB to Serial TTL cable, allowing a direct hardware connection to the machine</em></p>
-
-<p><em><strong>Note</strong></em>:</p>
-
-<blockquote>
-<p>This example really isn&rsquo;t designed with deployment in mind, as serial access in this context is only practically useful for shell access. In fact, development and testing are the only purposes I could see this being used for. Your client doesn&rsquo;t <em>become</em> part of the network, you&rsquo;re just hijacking a node that is on the network.</p>
-</blockquote>
-
-<h3 id="use-cases-3">Use Cases:</h3>
-
-<ul>
-<li>For when you require a barebones development/testing setup</li>
-</ul>
-
-<h3 id="requirements-3">Requirements:</h3>
-
-<ul>
-<li>Client</li>
-<li>1x USB to Serial TTL Cable</li>
-<li>1x node with GPIO/Serial pinout and Ethernet port</li>
-<li>1x node with Ethernet port</li>
-<li>1x Ethernet cable</li>
-</ul>
-
-<h2 id="example-4-a-fully-wireless-mesh-network">Example 4: A Fully Wireless Mesh Network</h2>
-
-<p><img src="/posts/resources/mesh-networking-configurations/mesh_4.svg" alt="Mesh 4" /></p>
-
-<p><em>Figure 6: One real-world example of a mesh network. Node 1 serves as an Access Point, and it connects to Node 2. Node 2 can also be an Access Point with the right hardware.</em></p>
-
-<p>Considering in the real world a mesh network may be spread over large distances, we can not always assume Ethernet will be involved.</p>
-
-<p><em><strong>Note:</strong></em></p>
-
-<blockquote>
-<p>For two nodes to connect to each other wirelessly, they must use either Ad-Hoc or Mesh Point Interface technology. Not all NICs support the later. If a node is also meant to be used as an Access Point, it must have <em>two</em> wireless adapters: one to host the Access Point, and one to connect to another node via Ad-Hoc or MPI.</p>
-</blockquote>
-
-<h3 id="use-cases-4">Use Cases:</h3>
-
-<ul>
-<li>A wireless version of the barebones development/testing setup</li>
-<li>The groundwork of a mesh network</li>
-</ul>
-
-<h3 id="requirements-4">Requirements:</h3>
-
-<ul>
-<li>Client</li>
-<li>1x node with 2x wireless adapters</li>
-<li>1x node with 1x wireless adapter</li>
-</ul>
-
-<h2 id="example-5-the-real-world-wired-wireless-hybrid-mesh">Example 5: The Real World (Wired/Wireless Hybrid Mesh)</h2>
-
-<p><img src="/posts/resources/mesh-networking-configurations/mesh_5.svg" alt="Mesh 5" /></p>
-
-<p><em>Figure 6: Mhmm, graphs.</em></p>
-
-<p>This network is essentially a combination of Examples 2 and 4, extrapolated, with some slight imagery changes to impress on the reader a larger sense of scale.</p>
-
-<h3 id="use-cases-5">Use Cases:</h3>
-
-<ul>
-<li>You&rsquo;ve created a mesh network that is now increasing in scale.</li>
-</ul>
-]]></content>
-		</item>
-		
-		<item>
-			<title>Notes on the 6510 instruction set</title>
-			<link>https://ranguli.xyz/posts/c64-instructions/</link>
-			<pubDate>Thu, 18 Apr 2019 16:57:19 -0230</pubDate>
-			
-			<guid>https://ranguli.xyz/posts/c64-instructions/</guid>
-			<description>These are my notes from reading the Chapter 5, the section on Machine Language from Commodore 64 Programmers Reference Manual. My reasoning for learning 6510 assembly is that it’s compatible with the 6502, which is known to be easy for beginners. Plus, variations of the 650x series are used in the NES, Apple II, and Atari 2600.
+    </item>
+    
+    <item>
+      <title>Notes on the 6510 instruction set</title>
+      <link>https://ranguli.xyz/posts/c64-instructions/</link>
+      <pubDate>Thu, 18 Apr 2019 16:57:19 -0230</pubDate>
+      
+      <guid>https://ranguli.xyz/posts/c64-instructions/</guid>
+      <description>These are my notes from reading the Chapter 5, the section on Machine Language from Commodore 64 Programmers Reference Manual. My reasoning for learning 6510 assembly is that it’s compatible with the 6502, which is known to be easy for beginners. Plus, variations of the 650x series are used in the NES, Apple II, and Atari 2600.
 Note on syntax  $ in front of a value indicates a hexidecimal value # indicates the following characters are a value (immediate mode).</description>
-			<content type="html"><![CDATA[
-
-<p>These are my notes from reading the Chapter 5, the section on Machine Language from <a href="https://www.commodore.ca/manuals/c64_programmers_reference/c64-programmers_reference_guide-05-basic_to_machine_language.pdf">Commodore 64 Programmers Reference Manual</a>. My reasoning for learning 6510 assembly is that it’s <a href="https://www.atarimagazines.com/compute/issue52/288_1_READERS_FEEDBACK_6502_6510_DIFFERENCES.php">compatible</a> with the 6502, which is known to be easy for beginners. Plus, variations of the 650x series are used in the NES, Apple II, and Atari 2600.</p>
-
-<h2 id="note-on-syntax">Note on syntax</h2>
-
-<ul>
-<li><code>$</code> in front of a value indicates a hexidecimal value</li>
-<li><code>#</code> indicates the following characters are a value (immediate mode). Not using this symbol indicates the contents of a memory location, or another register (absolute mode).</li>
-</ul>
-
-<h2 id="primer">Primer:</h2>
-
-<ul>
-<li>Remember one <code>byte</code> consists of 8 <code>bits</code> (a binary digit, either 0 or 1)</li>
-<li>Thus, the most a <code>byte</code> can store is <code>11111111</code> in binary, which is <code>$FF</code> in hex or <code>255</code> in decimal.
-
-<ul>
-<li>In order to describe a number &gt;255 to the C64, it must be split up into 2 or more bytes.</li>
-<li>For example, <code>LDA $102E</code> is expressed in memory as <code>$AD, $2E, $10</code>. The rightmost digits are the ‘low byte’ of the address, and the leftmost are the ‘high byte’. This is because the 6510 requires any address to be specified with its low byte first, then the high byte.</li>
-</ul></li>
-</ul>
-
-<h2 id="accumulator-register">Accumulator Register</h2>
-
-<p>There accumulator register has instructions to copy memory contents into it, copy the register contents into a memory location, and modify its contents directly without affecting any memory. The only register with instructions for performing math.</p>
-<div class="highlight"><pre class="chroma"><code class="language-asm" data-lang="asm"><span class="nf">LDA</span> <span class="err">#</span><span class="no">$05</span>    <span class="err">;</span> <span class="no">load</span> <span class="no">value</span> <span class="no">into</span> <span class="no">the</span> <span class="no">accumulator</span> <span class="no">register</span><span class="p">,</span> <span class="no">which</span> <span class="no">is</span> <span class="no">stored</span> <span class="no">in</span> <span class="no">$A9</span> <span class="no">for</span> <span class="no">this</span> <span class="no">instruction</span> <span class="no">if</span> <span class="no">in</span> <span class="no">immediate</span> <span class="no">mode</span><span class="p">,</span> <span class="no">or</span> <span class="no">$AD</span> <span class="no">in</span> <span class="no">absolute</span> <span class="no">mode.</span></code></pre></div>
-<h2 id="x-index-register">X Index Register</h2>
-
-<p>There are instructions for the X register that do most of the same things as the accumlator. As well, there are some things that only the X register can do.</p>
-
-<h2 id="y-index-register">Y Index Register</h2>
-
-<p>Has the same instructions as the accumulator and x index register, as well as some other unique instructions.</p>
-
-<h2 id="status-register">Status Register</h2>
-
-<p>Consists of 8 flags, each of which indicates a status.</p>
-
-<h2 id="program-counter">Program Counter</h2>
-
-<p>Contains the address of the current machine language instruction being executed. It is constantly changing because the OS is always running.</p>
-
-<h2 id="stack-pointer">Stack Pointer</h2>
-
-<p>Contains the location of the first empty place on the stack. Used for temporary storage by programs and the computer.</p>
-
-<h2 id="input-output-port">Input/Output Port</h2>
-
-<p>Appears at memory locations 0 (Data Direction Register) and 1 (PORT). It is an 8-bit port. On the C64 the register is used for memory managed in order to control more than 64k of ROM and RAM.</p>
-]]></content>
-		</item>
-		
-		<item>
-			<title>Fixing uniscan.pl on Arch-based distros</title>
-			<link>https://ranguli.xyz/posts/fix-uniscan-on-arch/</link>
-			<pubDate>Wed, 10 Apr 2019 16:57:19 -0230</pubDate>
-			
-			<guid>https://ranguli.xyz/posts/fix-uniscan-on-arch/</guid>
-			<description>When trying to install the helpful (but seemingly abandoned) uniscan.pl script for pentesting, I found that it didn&amp;rsquo;t work straight out of the box with Manjaro. Here&amp;rsquo;s how I got around it:
+    </item>
+    
+    <item>
+      <title>Fixing uniscan.pl on Arch-based distros</title>
+      <link>https://ranguli.xyz/posts/fix-uniscan-on-arch/</link>
+      <pubDate>Wed, 10 Apr 2019 16:57:19 -0230</pubDate>
+      
+      <guid>https://ranguli.xyz/posts/fix-uniscan-on-arch/</guid>
+      <description>When trying to install the helpful (but seemingly abandoned) uniscan.pl script for pentesting, I found that it didn&amp;rsquo;t work straight out of the box with Manjaro. Here&amp;rsquo;s how I got around it:
 Find the location of your uniscan install ➜ which uniscan /bin/uniscan This returns /bin/bash/uniscan which cleverly isn&amp;rsquo;t an executable, it&amp;rsquo;s just:
 #!/bin/sh cd /usr/share/uniscan perl uniscan.pl &amp;#34;$@&amp;#34; So our uniscan script is in /usr/share/uniscan:
 ➜ /bin ls -l /usr/share/uniscan total 416 -rw-r--r-- 1 root root 5501 Apr 5 16:01 CHANGELOG.</description>
-			<content type="html"><![CDATA[
-
-<p>When trying to install the helpful (but seemingly abandoned) <code>uniscan.pl</code> script for pentesting, I found that it didn&rsquo;t work straight out of the box with Manjaro. Here&rsquo;s how I got around it:</p>
-
-<h2 id="find-the-location-of-your-uniscan-install">Find the location of your uniscan install</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">➜ which uniscan
-/bin/uniscan</code></pre></div>
-<p>This returns <code>/bin/bash/uniscan</code> which cleverly isn&rsquo;t an executable, it&rsquo;s just:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
-</span><span class="cp"></span><span class="nb">cd</span> /usr/share/uniscan
-perl uniscan.pl <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span></code></pre></div>
-<p>So our uniscan script is in <code>/usr/share/uniscan</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">➜  /bin ls -l /usr/share/uniscan
-total <span class="m">416</span>
--rw-r--r-- <span class="m">1</span> root root   <span class="m">5501</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 CHANGELOG.txt
--rw-r--r-- <span class="m">1</span> root root     <span class="m">17</span> Apr  <span class="m">5</span> <span class="m">16</span>:09 cookies.lwp
--rw-r--r-- <span class="m">1</span> root root     <span class="m">61</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 c.txt
-drwxr-xr-x <span class="m">2</span> root root   <span class="m">4096</span> Apr  <span class="m">5</span> <span class="m">15</span>:55 DB
--rw-r--r-- <span class="m">1</span> root root  <span class="m">40808</span> Apr  <span class="m">5</span> <span class="m">16</span>:07 Directory
--rw-r--r-- <span class="m">1</span> root root  <span class="m">39202</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 Files
--rw-r--r-- <span class="m">1</span> root root   <span class="m">3462</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 index.php
-drwxr-xr-x <span class="m">2</span> root root   <span class="m">4096</span> Apr  <span class="m">5</span> <span class="m">15</span>:55 Languages
--rw-r--r-- <span class="m">1</span> root root  <span class="m">30401</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 LFI
-drwxr-xr-x <span class="m">5</span> root root   <span class="m">4096</span> Apr  <span class="m">5</span> <span class="m">15</span>:55 Plugins
--rw-r--r-- <span class="m">1</span> root root   <span class="m">2875</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 RCE
-drwxr-xr-x <span class="m">3</span> root root   <span class="m">4096</span> Apr  <span class="m">5</span> <span class="m">15</span>:55 report
--rw-r--r-- <span class="m">1</span> root root <span class="m">233053</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 RFI
-drwxr-xr-x <span class="m">2</span> root root   <span class="m">4096</span> Apr  <span class="m">5</span> <span class="m">15</span>:55 Uniscan
--rw-r--r-- <span class="m">1</span> root root   <span class="m">2236</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 uniscan.conf
--rwxr-xr-x <span class="m">1</span> root root   <span class="m">4482</span> Apr  <span class="m">5</span> <span class="m">16</span>:01 uniscan_gui.pl
--rw-r--r-- <span class="m">1</span> root root   <span class="m">7888</span> Apr  <span class="m">5</span> <span class="m">16</span>:09 uniscan.log
--rwxr-xr-x <span class="m">1</span> root root   <span class="m">8395</span> Apr  <span class="m">5</span> <span class="m">16</span>:04 uniscan.pl       &lt;- right here</code></pre></div>
-<h2 id="install-missing-perl-module">Install missing perl module</h2>
-
-<p>After some trial and error, it becomes apparent that it&rsquo;s missing a perl module by default. We can fix this by starting a <code>cpan</code> prompt:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">➜  /bin cpan
-
-cpan shell -- CPAN exploration and modules installation <span class="o">(</span>v2.20<span class="o">)</span>
-Enter <span class="s1">&#39;h&#39;</span> <span class="k">for</span> help.
-
-cpan<span class="o">[</span><span class="m">1</span><span class="o">]</span>&gt; install Moose</code></pre></div>
-<p>At the prompt, type <code>install Moose</code> to fetch the missing library.</p>
-
-<p>It&rsquo;s important that you try running <code>uniscan</code> after this point, as in my case it decided to update itself, and seemed to overwrite the changes
-I made below in the process.</p>
-
-<h2 id="modify-uniscan-pl">Modify uniscan.pl</h2>
-
-<p>I was admittedly stuck at this point until I found <a href="https://0xf4c3.blogspot.com/2018/08/fix-error-cant-locate-uniscancrawlerpm.html">this</a> article from a blog.
-All you have to do is open <code>/usr/share/uniscan.pl</code> and replace:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">use lib <span class="s2">&#34;./Uniscan&#34;</span><span class="p">;</span></code></pre></div>
-<p>With:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">use FindBin qw<span class="o">(</span> <span class="nv">$RealBin</span> <span class="o">)</span><span class="p">;</span>
-use lib <span class="nv">$RealBin</span><span class="p">;</span></code></pre></div>
-<p>Try running <code>uniscan</code> again, and if you&rsquo;re still scratching your head at any point make sure <code>uniscan</code> didn&rsquo;t update and overwrite the changes you made above.</p>
-]]></content>
-		</item>
-		
-	</channel>
+    </item>
+    
+  </channel>
 </rss>

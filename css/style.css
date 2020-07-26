@@ -1,0 +1,51 @@
+@import url('../fonts/FiraMono-Bold.ttf');
+@import url('../fonts/FiraMono-Regular.ttf');
+@import url('../fonts/FiraMono-Medium.ttf');
+
+body {
+    background-color: #1c1b28;
+}
+
+html * {
+    font-family: 'FiraMono-Regular', monospace;
+    font-size: 1em;
+}
+
+img {
+    margin: 20px 0px 20px 0px;
+}
+
+body, p {
+    color: #d1d1da;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #45435c;
+}
+
+time {
+    color: #bcbe98;
+}
+
+a:link, a:active, a:visited {
+    text-decoration: none;
+    color: #93c4cd;
+}
+
+article {
+    margin-top: 40px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid black;
+}
+
+.paginator {
+    margin-top: 40px;
+}
+
+a.tag {
+    color: #a9a5dd;
+}
+
+.taglist {
+    margin-bottom: 15px;
+}
